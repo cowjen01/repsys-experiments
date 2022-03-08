@@ -7,7 +7,7 @@ from models.base import BaseModel
 
 class KNN(BaseModel):
     def __init__(self):
-        self.model = NearestNeighbors(algorithm="brute", n_neighbors=5, metric="cosine")
+        self.model = NearestNeighbors(algorithm="brute", n_neighbors=20, metric="cosine")
 
     def name(self):
         return "knn"
@@ -40,10 +40,14 @@ class KNN(BaseModel):
             return D.dot(A).sum(axis=0)
 
         vf = np.vectorize(f, signature="(n),(n)->(m)")
-        predictions = vf(n_distances, n_indices)
+        X_predict = vf(n_distances, n_indices)
 
-        predictions[X.nonzero()] = 0
+        X_predict[X.nonzero()] = 0
 
-        self._apply_filters(predictions, **kwargs)
+        # indices = self.dataset.filter_items_by_tags("genre", ["Adventure"])
+        # indices = self.dataset.filter_items_by_number('year', (2000, 2020))
+        # self._mask_items(X_predict, indices)
 
-        return predictions
+        self._apply_filters(X_predict, **kwargs)
+
+        return X_predict

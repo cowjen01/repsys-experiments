@@ -8,9 +8,7 @@ from repsys.dataset import Dataset
 
 class MovieLens(Dataset):
     def __init__(self):
-        self.nmf = NMF(
-            n_components=10, init="nndsvd", max_iter=100, random_state=0, verbose=2
-        )
+        self.nmf = NMF(n_components=15, init="nndsvd", verbose=2)
 
     def name(self):
         return "ml20m"

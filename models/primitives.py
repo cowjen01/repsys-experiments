@@ -29,12 +29,10 @@ class TopPopular(BaseModel):
 
         X_predict = X_predict * self.item_ratings
 
-        self._apply_filters(X_predict, **kwargs)
-
         return X_predict
 
 
-class Rand(BaseModel):
+class RandomModel(BaseModel):
     def name(self) -> str:
         return "rand"
 

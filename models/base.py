@@ -1,6 +1,7 @@
 import os
 import pickle
 from abc import ABC
+import numpy as np
 
 from repsys import Model
 from repsys.ui import Select
@@ -30,12 +31,15 @@ class BaseModel(Model, ABC):
         checkpoint = open(self._checkpoint_path(), "wb")
         pickle.dump(self._serialize(), checkpoint)
 
-    def _apply_filters(self, predictions, **kwargs):
+    def _mask_items(self, X_predict, item_indices):
+        mask = np.ones(self.dataset.items.shape[0], dtype=np.bool)
+        mask[item_indices] = 0
+        X_predict[:, mask] = 0
+
+    def _apply_filters(self, X_predict, **kwargs):
         if kwargs.get("genre"):
-            items = self.dataset.items
-            items = items[items["genre"].apply(lambda x: kwargs.get("genre") not in x)]
-            indices = items.index.map(self.dataset.item_id_to_index)
-            predictions[:, indices] = 0
+            indices = self.dataset.filter_items_by_tag("genre", kwargs.get("genre"))
+            X_predict[:, indices] = 0
 
     def web_params(self):
         return {
