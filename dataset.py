@@ -38,36 +38,36 @@ class MovieLens(Dataset):
         return df
 
 
-# class BookCrossing(Dataset):
-#     def __init__(self) -> None:
-#         self.books = pd.read_csv("./data/bx-csv/books.csv", sep=";", escapechar="\\", encoding="CP1252")
-#
-#     def name(self):
-#         return "bx"
-#
-#     def item_cols(self):
-#         return {
-#             "ISBN": dtypes.ItemID(),
-#             "Book-Title": dtypes.Title(),
-#             "Book-Author": dtypes.Category(),
-#             "Year-Of-Publication": dtypes.Number(data_type=int),
-#             "Publisher": dtypes.Category(),
-#             "Image-URL-L": dtypes.String()
-#         }
-#
-#     def interaction_cols(self):
-#         return {
-#             "ISBN": dtypes.ItemID(),
-#             "User-ID": dtypes.UserID(),
-#         }
-#
-#     def load_items(self):
-#         return self.books
-#
-#     def load_interactions(self):
-#         df = pd.read_csv("./data/bx-csv/ratings.csv", sep=";", escapechar="\\", encoding="CP1252")
-#
-#         df = df[df["ISBN"].isin(self.books["ISBN"].unique())]
-#         df = df[df["Book-Rating"] >= 6]
-#
-#         return df
+class BookCrossing(Dataset):
+    def __init__(self) -> None:
+        self.books = pd.read_csv("./data/bx-csv/books.csv", sep=";", escapechar="\\", encoding="CP1252")
+
+    def name(self):
+        return "bx"
+
+    def item_cols(self):
+        return {
+            "ISBN": dtypes.ItemID(),
+            "Book-Title": dtypes.Title(),
+            "Book-Author": dtypes.Category(),
+            "Year-Of-Publication": dtypes.Number(data_type=int),
+            "Publisher": dtypes.Category(),
+            "Image-URL-L": dtypes.String()
+        }
+
+    def interaction_cols(self):
+        return {
+            "ISBN": dtypes.ItemID(),
+            "User-ID": dtypes.UserID(),
+        }
+
+    def load_items(self):
+        return self.books
+
+    def load_interactions(self):
+        df = pd.read_csv("./data/bx-csv/ratings.csv", sep=";", escapechar="\\", encoding="CP1252")
+
+        df = df[df["ISBN"].isin(self.books["ISBN"].unique())]
+        df = df[df["Book-Rating"] == 0]
+
+        return df

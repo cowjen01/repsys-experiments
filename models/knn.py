@@ -13,12 +13,8 @@ class KNN(BaseModel):
         return "knn"
 
     def fit(self, training=False):
-        if training:
-            X = self.dataset.get_train_data()
-            self.model.fit(X)
-            self._save_model()
-        else:
-            self._load_model()
+        X = self.dataset.get_train_data()
+        self.model.fit(X)
 
     def predict(self, X, **kwargs):
         if X.count_nonzero() == 0:
