@@ -7,7 +7,7 @@ from models.base import BaseModel
 
 class KNN(BaseModel):
     def __init__(self):
-        self.model = NearestNeighbors(algorithm="brute", n_neighbors=20, metric="cosine")
+        self.model = NearestNeighbors(algorithm="brute", n_neighbors=150, metric="cosine")
 
     def name(self):
         return "knn"
@@ -43,10 +43,6 @@ class KNN(BaseModel):
         X_predict = vf(n_distances, n_indices)
 
         X_predict[X.nonzero()] = 0
-
-        # indices = self.dataset.filter_items_by_tags("genre", ["Adventure"])
-        # indices = self.dataset.filter_items_by_number('year', (2000, 2020))
-        # self._mask_items(X_predict, indices)
 
         self._apply_filters(X_predict, **kwargs)
 

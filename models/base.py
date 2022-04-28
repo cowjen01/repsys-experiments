@@ -1,15 +1,15 @@
 import os
 import pickle
 from abc import ABC
-import numpy as np
 
+import numpy as np
 from repsys import Model
 from repsys.ui import Select
 
 
 class BaseModel(Model, ABC):
     def _checkpoint_path(self):
-        return os.path.join("./checkpoints", self.name())
+        return os.path.join("./checkpoints", self.dataset.name(), self.name())
 
     def _serialize(self):
         return self.model
@@ -25,8 +25,9 @@ class BaseModel(Model, ABC):
         self._deserialize(checkpoint)
 
     def _save_model(self):
-        if not os.path.exists("./checkpoints"):
-            os.mkdir("./checkpoints")
+        dir_path = os.path.dirname(self._checkpoint_path())
+        if not os.path.exists(dir_path):
+            os.mkdir(dir_path)
 
         checkpoint = open(self._checkpoint_path(), "wb")
         pickle.dump(self._serialize(), checkpoint)

@@ -1,10 +1,9 @@
 import numpy as np
+from repsys.helpers import set_seed
 from scipy.sparse import csr_matrix
 from sklearn.preprocessing import MinMaxScaler
 
 from models.base import BaseModel
-
-from repsys.helpers import set_seed
 
 
 class TopPopular(BaseModel):
@@ -29,6 +28,8 @@ class TopPopular(BaseModel):
 
         X_predict = X_predict * self.item_ratings
 
+        self._apply_filters(X_predict, **kwargs)
+
         return X_predict
 
 
@@ -45,6 +46,7 @@ class RandomModel(BaseModel):
 
         set_seed(self.config.seed)
         item_ratings = np.random.uniform(size=X.shape)
+
         X_predict = X_predict * item_ratings
 
         self._apply_filters(X_predict, **kwargs)

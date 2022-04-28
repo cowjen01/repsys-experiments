@@ -1,22 +1,12 @@
 import pandas as pd
-from scipy.sparse import csr_matrix
-from sklearn.decomposition import NMF
 
 import repsys.dtypes as dtypes
 from repsys.dataset import Dataset
 
 
 class MovieLens(Dataset):
-    def __init__(self):
-        self.nmf = NMF(n_components=15, init="nndsvd", verbose=2)
-
     def name(self):
         return "ml20m"
-
-    def compute_embeddings(self, X: csr_matrix):
-        W = self.nmf.fit_transform(X)
-        H = self.nmf.components_
-        return W, H.T
 
     def item_cols(self):
         return {
@@ -34,8 +24,7 @@ class MovieLens(Dataset):
     def interaction_cols(self):
         return {
             "movieId": dtypes.ItemID(),
-            "userId": dtypes.UserID(),
-            "rating": dtypes.Interaction(),
+            "userId": dtypes.UserID()
         }
 
     def load_items(self):
@@ -46,36 +35,39 @@ class MovieLens(Dataset):
     def load_interactions(self):
         df = pd.read_csv("./data/ml-20m/ratings.csv")
         df = df[df["rating"] > 3.5]
-        df["rating"] = 1
         return df
 
 
-# class GoodBooks(Dataset):
+# class BookCrossing(Dataset):
+#     def __init__(self) -> None:
+#         self.books = pd.read_csv("./data/bx-csv/books.csv", sep=";", escapechar="\\", encoding="CP1252")
+#
 #     def name(self):
-#         return "gb"
-
+#         return "bx"
+#
 #     def item_cols(self):
 #         return {
-#             "book_id": dtypes.ItemID(),
-#             "isbn": dtypes.String(),
-#             "authors": dtypes.String(),
-#             "year": dtypes.Number(data_type=int),
-#             "original_title": dtypes.Title(),
-#             "language_code": dtypes.Category(),
-#             "average_rating": dtypes.Number(),
-#             "image_url": dtypes.String()
+#             "ISBN": dtypes.ItemID(),
+#             "Book-Title": dtypes.Title(),
+#             "Book-Author": dtypes.Category(),
+#             "Year-Of-Publication": dtypes.Number(data_type=int),
+#             "Publisher": dtypes.Category(),
+#             "Image-URL-L": dtypes.String()
 #         }
-
+#
 #     def interaction_cols(self):
 #         return {
-#             "book_id": dtypes.ItemID(),
-#             "user_id": dtypes.UserID(),
+#             "ISBN": dtypes.ItemID(),
+#             "User-ID": dtypes.UserID(),
 #         }
-
+#
 #     def load_items(self):
-#         return pd.read_csv("./datasets/gb/books.csv")
-
+#         return self.books
+#
 #     def load_interactions(self):
-#         df = pd.read_csv("./datasets/gb/ratings.csv")
-#         df = df[df['rating'] > 3]
+#         df = pd.read_csv("./data/bx-csv/ratings.csv", sep=";", escapechar="\\", encoding="CP1252")
+#
+#         df = df[df["ISBN"].isin(self.books["ISBN"].unique())]
+#         df = df[df["Book-Rating"] >= 6]
+#
 #         return df
