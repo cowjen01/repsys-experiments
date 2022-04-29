@@ -23,8 +23,8 @@ class BaseModel(Model, ABC):
     def _apply_filters(self, X_predict, **kwargs):
         if kwargs.get("genre"):
             selected_genre = kwargs.get("genre")
-            indices = self.dataset.filter_items_by_tag("genre", selected_genre)
-            X_predict[:, indices] = 0
+            indices = self.dataset.filter_items_by_tags("genre", [selected_genre])
+            self._mask_items(X_predict, indices)
 
     def web_params(self):
         if self.dataset.name() == "ml20m":
