@@ -15,17 +15,14 @@ class MovieLens(Dataset):
             "description": dtypes.String(),
             "image": dtypes.String(),
             "director": dtypes.String(),
-            # "language": dtypes.Tag(sep=", "),
+            "language": dtypes.Tag(sep=", "),
             "genre": dtypes.Tag(sep=", "),
-            # "country": dtypes.Tag(sep=", "),
+            "country": dtypes.Tag(sep=", "),
             "year": dtypes.Number(data_type=int),
         }
 
     def interaction_cols(self):
-        return {
-            "movieId": dtypes.ItemID(),
-            "userId": dtypes.UserID()
-        }
+        return {"movieId": dtypes.ItemID(), "userId": dtypes.UserID()}
 
     def load_items(self):
         df = pd.read_json("./data/ml-20m/items.json")
