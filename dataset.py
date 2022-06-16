@@ -34,10 +34,16 @@ class MovieLens(Dataset):
         df = df[df["rating"] > 3.5]
         return df
 
+    def default_web_config(self):
+        return {
+            "mappings": {"title":"product_name","subtitle":"director","caption":"year","image":"image","content":"description"},
+            "recommenders": [{"name":"KNN","itemsPerPage":4,"itemsLimit":20,"model":"knn","modelParams":{"genre":""}},{"name":"SVD","itemsPerPage":4,"itemsLimit":20,"model":"svd","modelParams":{"genre":""}},{"name":"TopPop","itemsPerPage":4,"itemsLimit":20,"model":"pop","modelParams":{"genre":""}}]
+        }
+
 
 # class BookCrossing(Dataset):
 #     def __init__(self) -> None:
-#         self.books = pd.read_csv("./data/bx-csv/books.csv", sep=";", escapechar="\\", encoding="CP1252")
+#         self.books = pd.read_csv("./data/bx-csv/books.csv", sep=";", escapechar="\", encoding="CP1252")
 
 #     def name(self):
 #         return "bx"
@@ -62,7 +68,7 @@ class MovieLens(Dataset):
 #         return self.books
 
 #     def load_interactions(self):
-#         df = pd.read_csv("./data/bx-csv/ratings.csv", sep=";", escapechar="\\", encoding="CP1252")
+#         df = pd.read_csv("./data/bx-csv/ratings.csv", sep=";", escapechar="\", encoding="CP1252")
 
 #         df = df[df["ISBN"].isin(self.books["ISBN"].unique())]
 #         df = df[df["Book-Rating"] == 0]
