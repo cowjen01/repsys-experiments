@@ -18,7 +18,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   repsys:
-    image: "repsys-ml"
+    image: "cowjen01/repsys-ml:latest"
     networks:
       - traefik_proxy
     volumes:
