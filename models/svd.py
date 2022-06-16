@@ -17,7 +17,7 @@ class PureSVD(BaseModel):
         np.save(self._checkpoint_path(), self.sim)
 
     def _load_model(self):
-        self.sim = np.load(self._checkpoint_path())
+        self.sim = np.load(self._checkpoint_path())        
 
     def fit(self, training=False):
         if training:
