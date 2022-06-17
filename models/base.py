@@ -8,7 +8,7 @@ from repsys.ui import Select
 
 class BaseModel(Model, ABC):
     def _checkpoint_path(self):
-        return os.path.join("./checkpoints", self.dataset.name(), f"{self.name()}.npy")
+        return os.path.join("./checkpoints", f"{self.name()}.npy")
 
     def _create_checkpoints_dir(self):
         dir_path = os.path.dirname(self._checkpoint_path())
