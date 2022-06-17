@@ -13,7 +13,7 @@ class BaseModel(Model, ABC):
     def _create_checkpoints_dir(self):
         dir_path = os.path.dirname(self._checkpoint_path())
         if not os.path.exists(dir_path):
-            os.makedirs(dir_path)
+            os.makedirs(dir_path, exist_ok=True)
 
     def _mask_items(self, X_predict, item_indices):
         mask = np.ones(self.dataset.items.shape[0], dtype=np.bool)
