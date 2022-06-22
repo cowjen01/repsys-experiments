@@ -11,8 +11,6 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-    labels:
-      - "traefik.http.middlewares.repsys-auth.basicauth.users=guest:$$apr1$$b5z3Xj8N$$sVQdCdctCFWsfUfFKf7sH/"
     ports:
       - "8080:8080"
       - "80:80"
@@ -30,22 +28,24 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.repsysml.rule=Host(`repsys-demo-1.kam.fit.cvut.cz`)"
-      - "traefik.http.routers.repsysml.middlewares=repsys-auth"
+      - "traefik.http.middlewares.repsysml-auth.basicauth.users=guest:$$apr1$$b5z3Xj8N$$sVQdCdctCFWsfUfFKf7sH/"
+      - "traefik.http.routers.repsysml.middlewares=repsysml-auth"
       - "traefik.port=3001"
       - "traefik.docker.network=traefik_proxy"
 
   repsysgb:
-   image: "cowjen01/repsys-demo:latest"
+    image: "cowjen01/repsys-demo:latest"
     networks:
-     - traefik_proxy
+      - traefik_proxy
     command: "server --dataset-pkg datasets.gb"
     volumes:
-     - ".repsys_checkpoints/gb:/app/.repsys_checkpoints"
-     - "./checkpoints/gb:/app/checkpoints"
+      - ".repsys_checkpoints/gb:/app/.repsys_checkpoints"
+      - "./checkpoints/gb:/app/checkpoints"
     labels:
-     - "traefik.enable=true"
+      - "traefik.enable=true"
       - "traefik.http.routers.repsysgb.rule=Host(`repsys-demo-2.kam.fit.cvut.cz`)"
-      - "traefik.http.routers.repsysgb.middlewares=repsys-auth"
+      - "traefik.http.middlewares.repsysgb-auth.basicauth.users=guest:$$apr1$$b5z3Xj8N$$sVQdCdctCFWsfUfFKf7sH/"
+      - "traefik.http.routers.repsysgb.middlewares=repsysgb-auth"
       - "traefik.port=3001"
       - "traefik.docker.network=traefik_proxy"
 

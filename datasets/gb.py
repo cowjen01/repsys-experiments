@@ -14,9 +14,7 @@ class GoodBooks(Dataset):
             "storyline": dtypes.String(),
             "image_url_x": dtypes.String(),
             "authors": dtypes.String(),
-            # "language": dtypes.Tag(sep=", "),
             "cat3": dtypes.Tag(sep="|"),
-            # "country": dtypes.Tag(sep=", "),
             "year": dtypes.Number(data_type=int),
         }
 
@@ -39,6 +37,6 @@ class GoodBooks(Dataset):
     def default_web_config(self):
         return {
             "mappings": {"title":"original_title","subtitle":"authors","caption":"year","image":"image_url_x","content":"storyline"},
-            "recommenders": [{"name":"KNN","itemsPerPage":4,"itemsLimit":20,"model":"knn"},{"name":"EASE","itemsPerPage":4,"itemsLimit":20,"model":"ease"},{"name":"SVD","itemsPerPage":4,"itemsLimit":20,"model":"svd"},{"name":"TopPop","itemsPerPage":4,"itemsLimit":20,"model":"pop"}]
+            "recommenders": [{"name":"KNN","itemsPerPage":4,"itemsLimit":20,"model":"knn","modelParams":{}},{"name":"EASE","itemsPerPage":4,"itemsLimit":20,"model":"ease","modelParams":{}},{"name":"TopPop","itemsPerPage":4,"itemsLimit":20,"model":"pop","modelParams":{}},{"name":"SVD","itemsPerPage":4,"itemsLimit":20,"model":"svd","modelParams":{}}]
         }
 
