@@ -20,14 +20,19 @@ class BaseModel(Model, ABC):
         mask[item_indices] = 0
         X_predict[:, mask] = 0
 
+    def _filter_items(self, X_predict, col, value):
+        indices = self.dataset.filter_items_by_tags(col, [value])
+        self._mask_items(X_predict, indices)
+
     def _apply_filters(self, X_predict, **kwargs):
         if kwargs.get("genre"):
-            selected_genre = kwargs.get("genre")
-            indices = self.dataset.filter_items_by_tags("genre", [selected_genre])
-            self._mask_items(X_predict, indices)
+            self._filter_items(X_predict, "genre", kwargs.get("genre"))
+
+        if kwargs.get("category"):
+            self._filter_items(X_predict, "cat3", kwargs.get("category"))
 
     def web_params(self):
         if self.dataset.name() == "ml20m":
             return {"genre": Select(options=self.dataset.tags.get("genre"))}
         else:
-            return {}
+            return {"category": Select(options=self.dataset.tags.get("cat3"))}
