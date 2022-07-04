@@ -1,4 +1,4 @@
-repsys-framework==0.3.3
+repsys-framework==0.3.4
 scikit-learn
 pandas
 scipy

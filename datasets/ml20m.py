@@ -34,7 +34,7 @@ class MovieLens(Dataset):
         df = df[df["rating"] > 3.5]
         return df
 
-    def default_web_config(self):
+    def web_default_config(self):
         return {
             "mappings": {"title":"product_name","subtitle":"director","caption":"year","image":"image","content":"description"},
             "recommenders": [{"name":"KNN","itemsPerPage":4,"itemsLimit":20,"model":"knn","modelParams":{"genre":""}},{"name":"EASE","itemsPerPage":4,"itemsLimit":20,"model":"ease","modelParams":{"genre":""}},{"name":"TopPop","itemsPerPage":4,"itemsLimit":20,"model":"pop","modelParams":{"genre":""}},{"name":"SVD","itemsPerPage":4,"itemsLimit":20,"model":"svd","modelParams":{"genre":""}}]

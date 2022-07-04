@@ -34,7 +34,7 @@ class GoodBooks(Dataset):
         df = df[df["rating"] >= 4.]
         return df
 
-    def default_web_config(self):
+    def web_default_config(self):
         return {
             "mappings": {"title":"original_title","subtitle":"authors","caption":"year","image":"image_url_x","content":"storyline"},
             "recommenders": [{"name":"KNN","itemsPerPage":4,"itemsLimit":20,"model":"knn","modelParams":{}},{"name":"EASE","itemsPerPage":4,"itemsLimit":20,"model":"ease","modelParams":{}},{"name":"TopPop","itemsPerPage":4,"itemsLimit":20,"model":"pop","modelParams":{}},{"name":"SVD","itemsPerPage":4,"itemsLimit":20,"model":"svd","modelParams":{}}]
