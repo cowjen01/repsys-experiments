@@ -49,5 +49,21 @@ services:
       - "traefik.port=3001"
       - "traefik.docker.network=traefik_proxy"
 
+  repsysmlbeta:
+    image: "cowjen01/repsys-demo:latest"
+    networks:
+      - traefik_proxy
+    command: "server --dataset-pkg datasets.ml20m"
+    volumes:
+      - ".repsys_checkpoints/ml20m:/app/.repsys_checkpoints"
+      - "./checkpoints/ml20m:/app/checkpoints"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.repsysmlbeta.rule=Host(`repsys-demo-3.kam.fit.cvut.cz`)"
+      - "traefik.http.middlewares.repsysmlbeta-auth.basicauth.users=guest:$$apr1$$b5z3Xj8N$$sVQdCdctCFWsfUfFKf7sH/"
+      - "traefik.http.routers.repsysmlbeta.middlewares=repsysmlbeta-auth"
+      - "traefik.port=3001"
+      - "traefik.docker.network=traefik_proxy"
+
 networks:
   traefik_proxy:
