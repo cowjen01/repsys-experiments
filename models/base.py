@@ -21,18 +21,30 @@ class BaseModel(Model, ABC):
         X_predict[:, mask] = 0
 
     def _filter_items(self, X_predict, col, value):
-        indices = self.dataset.filter_items_by_tags(col, [value])
-        self._mask_items(X_predict, indices)
+        if value:
+            indices = self.dataset.filter_items_by_tags(col, [value])
+            self._mask_items(X_predict, indices)
 
     def _apply_filters(self, X_predict, **kwargs):
-        if kwargs.get("genre"):
+        if self.dataset.name() == "ml20m":
             self._filter_items(X_predict, "genre", kwargs.get("genre"))
 
-        if kwargs.get("category"):
+        if self.dataset.name() == "gb":
             self._filter_items(X_predict, "cat3", kwargs.get("category"))
+
+        if self.dataset.name() == "mind":
+            self._filter_items(X_predict, "category", kwargs.get("category"))
+            self._filter_items(X_predict, "subcategory", kwargs.get("subcategory"))
 
     def web_params(self):
         if self.dataset.name() == "ml20m":
             return {"genre": Select(options=self.dataset.tags.get("genre"))}
-        else:
+
+        if self.dataset.name() == "gb":
             return {"category": Select(options=self.dataset.tags.get("cat3"))}
+
+        if self.dataset.name() == "mind":
+            return {
+                "category": Select(options=self.dataset.tags.get("category")),
+                "subcategory": Select(options=self.dataset.tags.get("subcategory")),
+            }

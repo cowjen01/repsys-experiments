@@ -18,7 +18,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   repsysml:
-    image: "cowjen01/repsys-demo:latest"
+    image: "cowjen01/repsys-demo:0.3.4"
     networks:
       - traefik_proxy
     command: "server --dataset-pkg datasets.ml20m"
@@ -34,7 +34,7 @@ services:
       - "traefik.docker.network=traefik_proxy"
 
   repsysgb:
-    image: "cowjen01/repsys-demo:latest"
+    image: "cowjen01/repsys-demo:0.3.4"
     networks:
       - traefik_proxy
     command: "server --dataset-pkg datasets.gb"

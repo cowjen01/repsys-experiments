@@ -36,6 +36,29 @@ class MovieLens(Dataset):
 
     def web_default_config(self):
         return {
-            "mappings": {"title":"product_name","subtitle":"director","caption":"year","image":"image","content":"description"},
-            "recommenders": [{"name":"KNN","itemsPerPage":4,"itemsLimit":20,"model":"knn","modelParams":{"genre":""}},{"name":"EASE","itemsPerPage":4,"itemsLimit":20,"model":"ease","modelParams":{"genre":""}},{"name":"TopPop","itemsPerPage":4,"itemsLimit":20,"model":"pop","modelParams":{"genre":""}},{"name":"SVD","itemsPerPage":4,"itemsLimit":20,"model":"svd","modelParams":{"genre":""}}]
+            "mappings": {
+                "title": "product_name",
+                "subtitle": "director",
+                "caption": "year",
+                "image": "image",
+                "content": "description",
+            },
+            "recommenders": [
+                {
+                    "name": "KNN",
+                    "model": "knn",
+                },
+                {
+                    "name": "EASE",
+                    "model": "ease",
+                },
+                {
+                    "name": "TopPop",
+                    "model": "pop",
+                },
+                {
+                    "name": "SVD",
+                    "model": "svd",
+                },
+            ],
         }
