@@ -6,16 +6,17 @@ from models.base import BaseModel
 
 
 class KNN(BaseModel):
-    def __init__(self):
+    def __init__(self, k=100):
         self.model = None
+        self.k = k
 
     def name(self):
         return "knn"
 
     def fit(self, training=False):
         X = self.dataset.get_train_data()
-        n_neighbors = 50 if self.dataset.name() == "ml20m" else 100
-        self.model = NearestNeighbors(n_neighbors=n_neighbors, metric="cosine")
+        # n_neighbors = 50 if self.dataset.name() == "ml20m" else 100
+        self.model = NearestNeighbors(n_neighbors=self.k, metric="cosine")
         self.model.fit(X)
 
     def predict(self, X, **kwargs):
