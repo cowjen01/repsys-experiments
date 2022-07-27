@@ -15,7 +15,6 @@ class KNN(BaseModel):
 
     def fit(self, training=False):
         X = self.dataset.get_train_data()
-        # n_neighbors = 50 if self.dataset.name() == "ml20m" else 100
         self.model = NearestNeighbors(n_neighbors=self.k, metric="cosine")
         self.model.fit(X)
 
@@ -23,10 +22,7 @@ class KNN(BaseModel):
         if X.count_nonzero() == 0:
             return np.random.uniform(size=X.shape)
 
-        distances, indices = self.model.kneighbors(X)
-
-        n_distances = distances[:, 1:]
-        n_indices = indices[:, 1:]
+        n_distances, n_indices = self.model.kneighbors(X)
 
         n_distances = 1 - n_distances
 
