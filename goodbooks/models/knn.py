@@ -11,7 +11,7 @@ class KNN(BaseModel):
         self.k = k
 
     def name(self):
-        return f"knn#{self.k}"
+        return f"knn{self.k}"
 
     def fit(self, training=False):
         X = self.dataset.get_train_data()
