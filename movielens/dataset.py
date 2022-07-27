@@ -25,12 +25,12 @@ class MovieLens(Dataset):
         return {"movieId": dtypes.ItemID(), "userId": dtypes.UserID()}
 
     def load_items(self):
-        df = pd.read_json("./data/ml-20m/items.json")
+        df = pd.read_json("./data/items.json")
         df["year"] = df["product_name"].str.extract(r"\((\d+)\)")
         return df
 
     def load_interactions(self):
-        df = pd.read_csv("./data/ml-20m/ratings.csv")
+        df = pd.read_csv("./data/ratings.csv")
         df = df[df["rating"] > 3.5]
         return df
 

@@ -23,12 +23,12 @@ class GoodBooks(Dataset):
         return {"book_id": dtypes.ItemID(), "user_id": dtypes.UserID()}
 
     def load_items(self):
-        df = pd.read_csv("./data/gb/items.csv")
+        df = pd.read_csv("./data/items.csv")
         df["year"] = df["original_publication_year"].fillna(0).astype(int)
         return df
 
     def load_interactions(self):
-        df = pd.read_csv("./data/gb/ratings.csv")
+        df = pd.read_csv("./data/ratings.csv")
         df = df[df["rating"] >= 4.0]
         return df
 

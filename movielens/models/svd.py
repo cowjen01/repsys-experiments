@@ -22,9 +22,8 @@ class PureSVD(BaseModel):
     def fit(self, training=False):
         if training:
             X = self.dataset.get_train_data()
-            n_components = 30 if self.dataset.name() == "ml20m" else 50
             U, sigma, VT = randomized_svd(
-                X, n_components=n_components, n_iter=10, random_state=self.config.seed
+                X, n_components=30, n_iter=10, random_state=self.config.seed
             )
             self.sim = VT.T.dot(VT)
             self._save_model()
